@@ -131,18 +131,18 @@ public class SendReminder extends BaseJob implements Job {
                     }
                     if (unResolvedRequests.get(i + 4) != null) {
 
-                        csmFirstName = unResolvedRequests.get(i + 4).toString() + " " + unResolvedRequests.get(i + 5);
+                        csmFirstName = unResolvedRequests.get(i + 4).toString();
                     }
                     if (unResolvedRequests.get(i + 5) != null) {
 
-                        csmLastName = unResolvedRequests.get(i + 4).toString() + " " + unResolvedRequests.get(i + 5);
+                        csmLastName = unResolvedRequests.get(i + 5).toString();
                     }
 
                     newCsmMailCount = csmMailCount + 1;
                    //String subject = "Reminder: " + newCsmMailCount + " for Email request " + unResolvedRequests.get(i);
                    // mailContent = "Hi " + csmName + " , \n" + mailContent1 +  srId  + mailContent2;
                    
-                    emailSubject = emailSubject.replaceAll("<<REMINDER_COUNT>>", Integer.toString(csmMailCount));
+                    emailSubject = emailSubject.replaceAll("<<REMINDER_COUNT>>", Integer.toString(newCsmMailCount));
                     emailSubject = emailSubject.replaceAll("<<SR_ID>>", Integer.toString(srId));
                     
                     emailContent =  emailContent.replaceAll("<<FIRST_NAME>>", csmFirstName);
@@ -191,7 +191,8 @@ public class SendReminder extends BaseJob implements Job {
 
                 }
 
-            }
+            }            
+            
         } catch (SQLException ex) {
             Logger.getLogger(SendReminder.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NamingException ex) {
