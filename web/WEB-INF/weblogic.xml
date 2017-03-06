@@ -5,8 +5,8 @@
     <debug>true</debug>
   </jsp-descriptor>
   <resource-description>
-   <res-ref-name>HexiCloudDS</res-ref-name>
-   <jndi-name>jdbc/HexiCloudDS</jndi-name>
+   <res-ref-name>QuartzHexiDS</res-ref-name>
+   <jndi-name>jdbc/QuartzHexiDS</jndi-name>
 </resource-description>
   <context-root>/Scheduler</context-root>
 </weblogic-web-app>

@@ -47,15 +47,15 @@ public class CustomerReminder extends BaseJob implements Job{
 
             dbConnection = hexiUtil.getDBConnection();
             //check unresolved customer requests
-            int jobId = getJobId(dbConnection, jobName);
+            int jobId = hexiUtil.getJobId(dbConnection, jobName);
             ArrayList customersList = geCustomersFromCLM(dbConnection);
             
             if(customersList != null) 
             {
             int customerCount = customersList.size();
             LOGGER.info("customerCount" + customerCount);
-            HashMap rulesConfigMap = getRulesConfigured(dbConnection, jobId);
-            String occurrence = null;
+            HashMap rulesConfigMap = hexiUtil.getRulesConfigured(dbConnection, jobId);
+            //String occurrence = null;
             String mailSubject = "Reminder : Please access provisioned cloud services";
             Iterator it = rulesConfigMap.entrySet().iterator();
                 while (it.hasNext()) {
@@ -128,7 +128,7 @@ public class CustomerReminder extends BaseJob implements Job{
         }
     }    
      
-    private int getJobId(Connection dbConnection, String jobName) throws SQLException {
+   /* private int getJobId(Connection dbConnection, String jobName) throws SQLException {
 
         int jobId = 0;
 
@@ -145,7 +145,7 @@ public class CustomerReminder extends BaseJob implements Job{
 
         }
         return jobId;
-    }
+    }*/
     private ArrayList geCustomersFromCLM(Connection dbConnection) throws SQLException {
          ArrayList customersList = new ArrayList();
 
@@ -170,7 +170,7 @@ public class CustomerReminder extends BaseJob implements Job{
 
     }
     
-    private HashMap getRulesConfigured(Connection dbConnection, int jobId) throws SQLException {
+    /*private HashMap getRulesConfigured(Connection dbConnection, int jobId) throws SQLException {
 
         //ArrayList configurdRules  = new ArrayList();
         HashMap<String, String> rulesConfMap = new HashMap<String, String>();
@@ -203,5 +203,5 @@ public class CustomerReminder extends BaseJob implements Job{
       
         return rulesConfMap;
     }    
-
+*/
 }

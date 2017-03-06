@@ -11,8 +11,12 @@ import java.io.OutputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
 
@@ -110,6 +114,59 @@ public class HexiUtil {
         return dbConnection;
 
     }
+    
+      public int getJobId(Connection dbConnection, String jobName) throws SQLException {
+
+        int jobId = 0;
+
+        if (dbConnection != null) {
+
+            String query = "select job_id from Job_configuration where job_name ='" + jobName + "'";
+            //String query = "select sr_id,sent_to,request_sent_on from user_emails";
+            PreparedStatement pStmt = dbConnection.prepareStatement(query);
+            ResultSet rs = pStmt.executeQuery();
+
+            while (rs.next()) {
+                jobId = rs.getInt(1);
+            }
+
+        }
+        return jobId;
+    }
+      public HashMap getRulesConfigured(Connection dbConnection, int jobId) throws SQLException {
+
+        //ArrayList configurdRules  = new ArrayList();
+        HashMap<String, String> rulesConfMap = new HashMap<String, String>();
+        if (dbConnection != null) {
+            PreparedStatement pStmt = null;
+            ResultSet rs = null;
+            try {
+                String query = "select rule_key,rule_value,rule_type from RULE_CONFIGURATION where job_id=" + jobId;
+                pStmt = dbConnection.prepareStatement(query);
+                rs = pStmt.executeQuery();
+
+                while (rs.next()) {
+                   rulesConfMap.put(rs.getString(1), rs.getString(2));
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            } finally {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pStmt != null) {
+                    try {
+                        pStmt.close();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(SendReminder.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+      
+        return rulesConfMap;
+    }    
+
 
     
 }
